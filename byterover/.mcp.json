@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "byterover": {
+      "type": "http",
+      "url": "https://dev-mcp.byterover.ai/mcp"
+    }
+  }
+}

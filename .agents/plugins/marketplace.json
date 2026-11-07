@@ -1,0 +1,21 @@
+{
+  "name": "byterover-trek",
+  "interface": {
+    "displayName": "ByteRover Trek"
+  },
+  "plugins": [
+    {
+      "name": "byterover",
+      "description": "Search and manage authorized enterprise documents with ByteRover Trek.",
+      "source": {
+        "source": "local",
+        "path": "./byterover"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
