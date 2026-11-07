@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "byterover",
+  "version": "0.1.0",
+  "description": "Search and manage authorized enterprise documents with ByteRover.",
+  "author": {
+    "name": "ByteRover",
+    "url": "https://byterover.ai"
+  },
+  "homepage": "https://byterover.ai"
+}

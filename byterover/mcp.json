@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "byterover": {
+      "type": "streamable-http",
+      "url": "https://dev-mcp.byterover.ai/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "authorizationServerBase": "https://dev.byterover.ai",
+            "resource": "https://dev-mcp.byterover.ai/mcp"
+          }
+        }
+      }
+    }
+  }
+}
