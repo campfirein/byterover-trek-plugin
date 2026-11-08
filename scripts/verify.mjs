@@ -19,13 +19,15 @@ function assert(condition, message) {
 }
 
 const plugin = await readJson("byterover/plugin.json");
+const packageManifest = await readJson("package.json");
 const claudePlugin = await readJson("byterover/.claude-plugin/plugin.json");
 const codexMarketplace = await readJson(".agents/plugins/marketplace.json");
 const claudeMarketplace = await readJson(".claude-plugin/marketplace.json");
 const source = await readJson("SOURCE.json");
 
 assert(plugin.name === "byterover", "Portable plugin name must be byterover");
-assert(plugin.version === "0.1.0", "Portable plugin version must be 0.1.0");
+assert(plugin.version === "0.1.1", "Portable plugin version must be 0.1.1");
+assert(packageManifest.version === plugin.version, "Distribution package version must match portable plugin version");
 assert(claudePlugin.version === plugin.version, "Claude plugin version must match portable plugin version");
 assert(codexMarketplace.name === "byterover-trek", "Codex marketplace name must be byterover-trek");
 assert(codexMarketplace.interface?.displayName === "ByteRover Trek", "Codex marketplace must define its display name");
@@ -37,7 +39,7 @@ assert(claudeMarketplace.name === "byterover-trek", "Claude marketplace name mus
 assert(claudeMarketplace.plugins[0]?.source === "./byterover", "Claude marketplace must use ./byterover");
 assert(claudeMarketplace.plugins[0]?.version === plugin.version, "Claude marketplace version must match plugin version");
 assert(source.environment === "dev", "SOURCE.json must identify the dev environment");
-assert(source.commit === "7c74b24a2e76f3edbefb0eedd43c7edc773b75dd", "SOURCE.json must identify the Trek source commit");
+assert(source.commit === "f35bfc708a7cad91835a65977efce0fdaf0bc968", "SOURCE.json must identify the Trek source commit");
 
 const mcpFiles = [
   "byterover/mcp.json",
@@ -51,8 +53,11 @@ for (const file of mcpFiles) {
   assert(!text.includes("https://mcp.byterover.ai"), `${file} must not use the production MCP endpoint`);
 }
 
-const portableMcp = await readText("byterover/mcp.json");
-assert(portableMcp.includes("https://dev.byterover.ai"), "Portable MCP manifest must use the development OAuth endpoint");
+const portableMcp = await readJson("byterover/mcp.json");
+const portableServer = portableMcp.mcpServers?.byterover;
+assert(portableServer?.type === "streamable-http", "Portable MCP manifest must use streamable-http");
+assert(portableServer?.url === "https://dev-mcp.byterover.ai/mcp", "Portable MCP manifest must use the development endpoint");
+assert(portableServer?.extensions === undefined, "Portable MCP manifest must use host OAuth discovery");
 
 const documentedTools = [
   "byterover_search",
