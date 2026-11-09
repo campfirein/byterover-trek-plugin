@@ -1,6 +1,6 @@
 {
   "repository": "campfirein/trek",
-  "commit": "f35bfc708a7cad91835a65977efce0fdaf0bc968",
+  "commit": "c6898b5c53d20e29263bb63091f91162378fe597",
   "source": "plugins/byterover",
   "generator": "tools/plugin",
   "environment": "dev"

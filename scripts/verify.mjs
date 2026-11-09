@@ -39,7 +39,7 @@ assert(claudeMarketplace.name === "byterover-trek", "Claude marketplace name mus
 assert(claudeMarketplace.plugins[0]?.source === "./byterover", "Claude marketplace must use ./byterover");
 assert(claudeMarketplace.plugins[0]?.version === plugin.version, "Claude marketplace version must match plugin version");
 assert(source.environment === "dev", "SOURCE.json must identify the dev environment");
-assert(source.commit === "f35bfc708a7cad91835a65977efce0fdaf0bc968", "SOURCE.json must identify the Trek source commit");
+assert(source.commit === "c6898b5c53d20e29263bb63091f91162378fe597", "SOURCE.json must identify the Trek source commit");
 
 const mcpFiles = [
   "byterover/mcp.json",
