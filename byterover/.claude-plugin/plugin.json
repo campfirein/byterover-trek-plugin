@@ -1,5 +1,15 @@
 {
   "name": "byterover",
-  "version": "0.1.1",
-  "description": "Search and manage authorized enterprise documents with ByteRover."
+  "displayName": "ByteRover Trek",
+  "version": "0.1.2",
+  "description": "Search and manage authorized enterprise documents with ByteRover.",
+  "author": {
+    "name": "BYTEROVER, Inc.",
+    "email": "accounts@byterover.ai",
+    "url": "https://byterover.ai"
+  },
+  "homepage": "https://byterover.ai",
+  "repository": "https://github.com/campfirein/byterover-trek-plugin",
+  "license": "Elastic-2.0",
+  "keywords": ["byterover", "enterprise-search", "semantic-search", "documents", "mcp"]
 }
