@@ -24,9 +24,16 @@ const claudePlugin = await readJson("byterover/.claude-plugin/plugin.json");
 const codexMarketplace = await readJson(".agents/plugins/marketplace.json");
 const claudeMarketplace = await readJson(".claude-plugin/marketplace.json");
 const source = await readJson("SOURCE.json");
+const installer = await readText("byterover/INSTALL_AGENT.md");
+const pluginReadme = await readText("byterover/README.md");
+const repositoryReadme = await readText("README.md");
+
+const version = "0.1.2";
+const releaseTag = `dev-v${version}`;
+const sourceCommit = "f118ab552d1fc29cc235a5a9181b8709e63394b4";
 
 assert(plugin.name === "byterover", "Portable plugin name must be byterover");
-assert(plugin.version === "0.1.1", "Portable plugin version must be 0.1.1");
+assert(plugin.version === version, `Portable plugin version must be ${version}`);
 assert(packageManifest.version === plugin.version, "Distribution package version must match portable plugin version");
 assert(claudePlugin.version === plugin.version, "Claude plugin version must match portable plugin version");
 assert(codexMarketplace.name === "byterover-trek", "Codex marketplace name must be byterover-trek");
@@ -39,7 +46,24 @@ assert(claudeMarketplace.name === "byterover-trek", "Claude marketplace name mus
 assert(claudeMarketplace.plugins[0]?.source === "./byterover", "Claude marketplace must use ./byterover");
 assert(claudeMarketplace.plugins[0]?.version === plugin.version, "Claude marketplace version must match plugin version");
 assert(source.environment === "dev", "SOURCE.json must identify the dev environment");
-assert(source.commit === "c6898b5c53d20e29263bb63091f91162378fe597", "SOURCE.json must identify the Trek source commit");
+assert(source.commit === sourceCommit, "SOURCE.json must identify the Trek source commit");
+assert(installer.includes("distribution-channel: development"), "Installer must identify the development channel");
+assert(installer.includes("mcp-server-url: https://dev-mcp.byterover.ai/mcp"), "Installer must use the development MCP endpoint");
+assert(installer.includes(`marketplace-ref: ${releaseTag}`), "Installer must pin the development release tag");
+assert(installer.includes("Add or migrate the marketplace at most once."), "Installer must bound marketplace migration");
+assert(installer.includes("stop and report the conflict"), "Installer must preserve conflicting user configuration");
+assert(pluginReadme.includes(`/blob/${releaseTag}/byterover/INSTALL_AGENT.md`), "Plugin README must pin the installer tag");
+assert(repositoryReadme.includes(`/blob/${releaseTag}/byterover/INSTALL_AGENT.md`), "Repository README must pin the installer tag");
+assert(repositoryReadme.includes(`--ref ${releaseTag}`), "Repository README must pin the Codex marketplace tag");
+for (const text of [installer, pluginReadme, repositoryReadme]) {
+  assert(!text.includes("/blob/main/"), "Installation documentation must not use the mutable main branch");
+  assert(!text.includes("--ref main"), "Installation documentation must not use the mutable main ref");
+  assert(!text.includes(".git#main"), "Installation documentation must not use the mutable main ref");
+}
+
+if (process.env.RELEASE_TAG) {
+  assert(process.env.RELEASE_TAG === releaseTag, `Release tag must be ${releaseTag}`);
+}
 
 const mcpFiles = [
   "byterover/mcp.json",
